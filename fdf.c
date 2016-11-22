@@ -6,7 +6,7 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 16:46:42 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/22 18:32:36 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/23 00:48:09 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,6 @@ int	main(int argc, char *argv[])
 	fd = open(argv[1], O_RDONLY);
 	mlx = mlx_init();
 	window = mlx_new_window(mlx, 800, 600, "test");
+	mlx_loop(mlx);
+	argc++;
 }
