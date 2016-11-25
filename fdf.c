@@ -6,7 +6,7 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 16:46:42 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/25 01:33:50 by                  ###   ########.fr       */
+/*   Updated: 2016/11/25 16:39:59 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,31 @@ void	print_map(t_list *map)
 	}
 }
 
+void	print_tab(t_point *tab, int len)
+{
+	int	count;
+
+	count = 0;
+	printf("LEN = %d\n", len);
+	while (count < len)
+	{
+		printf("x = %d y = %d\n", tab[count].x, tab[count].y);
+		count++;
+	}
+}
+
 int		main(int argc, char *argv[])
 {
-	t_list	*map;
 	int		err;
+	int		len;
+	t_point	*tab;
 	void	*mlx;
 	void	*window;
 
 	err = 0;
-	map = ft_create_map(argv[1], &err);
+	len = 0;
+	tab = ft_init_tab(argv[1], &err, &len);
+	print_tab(tab, len);
 	/*
 	if (argc != 2 || !ft_check_file(argv[1]))
 	{
@@ -97,7 +113,6 @@ int		main(int argc, char *argv[])
 		return (0);
 	}
 	*/
-	print_map(map);
 	mlx = mlx_init();
 	window = mlx_new_window(mlx, 800, 600, "test");
 	//mlx_loop(mlx);

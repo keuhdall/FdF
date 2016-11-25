@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 01:19:41 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/25 01:31:16 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/25 16:31:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ typedef struct	s_point
 	int			y;
 }				t_point;
 
-t_list			*ft_create_map(char *name, int *err);
+t_point			*ft_init_tab(char *name, int *err, int *len);
 
 #endif
