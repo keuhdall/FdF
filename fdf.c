@@ -6,7 +6,7 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 16:46:42 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/28 14:22:10 by                  ###   ########.fr       */
+/*   Updated: 2016/11/29 02:27:44 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,23 @@ void	ft_trace(t_meta mlx, t_point src, t_point dst)
 	int	dy;
 	int	x;
 	int	y;
+	int	add;
 
 	dx = dst.x - src.x;
 	dy = dst.y - src.y;
 	x = src.x;
-	while (x < dst.x)
+	y = src.y;
+	mlx_pixel_put(mlx.ptr, mlx.win, x, y, 0x00FF00);
+	add = dx / 2;
+	x++;
+	while (x <= dst.x)
 	{
-		y = src.y + dy * (x - src.x) / dy;
+		add += dy;
+		if (add >= dx)
+		{
+			add -= dx;
+			y++;
+		}
 		mlx_pixel_put(mlx.ptr, mlx.win, x, y, 0x00FF00);
 		x++;
 	}
@@ -112,43 +122,26 @@ void	ft_display_tab(t_meta mlx, t_point *tab, int len, int offset)
 {
 	int		count;
 	int		count_index;
+	int		len_size;
 	int		tmp;
-	int		*tab_tmp;
 
 	count = 1;
 	count_index = 0;
-	tmp = tab[count].y;
-	if (!(tab_tmp = (int *)malloc(sizeof(int) * len)))
-		tab_tmp = NULL;
+	len_size = 0;
+	while (tab[len_size].y == 0)
+		len_size++;
+	tmp = 0;
 	while (count_index < len)
 	{
-		tab_tmp[count_index] = tab[count_index].x;
-		count_index++;
-	}
-	count_index = 0;
-	while (count_index < len)
-	{
-		if (tab[count_index].y != tmp)
-		{
-			count = 1;
-			tmp = tab[count_index].y;
-		}
-		/*
-		mlx_pixel_put(mlx.ptr, mlx.win,
-		(count * offset / 2 - tab[count_index].y * offset / 2) + 150,
-		(count * offset / 2 + tab[count_index].y * offset / 2) + 150,
-		//(0x00FF00 + tab[count_index].x * 100));
-		0x00FF00);
-		*/
-		tab[count_index].x = (count * offset / 2 - tab[count_index].y *
+		tmp = tab[count_index].x;
+		tab[count_index].x = (tmp * offset / 2 - tab[count_index].y *
 			offset / 2) + 150;
-		tab[count_index].y = (count * offset / 2 + tab[count_index].y *
-			offset / 2) + 150 - tab_tmp[count_index];
-		count++;
+		tab[count_index].y = (tmp * offset / 2 + tab[count_index].y *
+			offset / 2) + 150 - tab[count_index].offset;
 		count_index++;
 	}
-	print_tab(tab, len);
 	count = 0;
+	ft_trace(mlx, tab[0], tab[len - 1]);
 	while (count + 1 < len)
 	{
 		ft_trace(mlx, tab[count], tab[count + 1]);
@@ -156,10 +149,10 @@ void	ft_display_tab(t_meta mlx, t_point *tab, int len, int offset)
 	}
 	/*
 	count = 0;
-	while (count + 11 < len)
+	while (count + len_size < len)
 	{
-		ft_trace(mlx, tab[count], tab[count + 11]);
-		count += 11;
+		ft_trace2(mlx, tab[count], tab[count + len_size]);
+		count++;
 	}
 	*/
 }

@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 01:04:23 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/25 17:35:42 by                  ###   ########.fr       */
+/*   Updated: 2016/11/29 00:07:05 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ t_point	*ft_init_tab(char *name, int *err, int *len)
 		count_tmp = 0;
 		while (count_tmp < *len)
 		{
-			tab[count_tab].x = ((int *)(tmp->content))[count_tmp];
+			tab[count_tab].x = count_tmp + 1;
 			tab[count_tab].y = count_y;
+			tab[count_tab].offset = ((int *)(tmp->content))[count_tmp];
 			count_tmp++;
 			count_tab++;
 		}
