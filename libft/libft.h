@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/06 23:35:12 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/24 21:36:05 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/30 15:37:15 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strtrim(char const *s);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
+int					get_next_line(int fd, char **line);
 
 #endif

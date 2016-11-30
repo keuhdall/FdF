@@ -6,14 +6,11 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 16:46:42 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/30 02:19:02 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/30 15:58:06 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "./minilibx_macos/mlx.h"
-#include "./libft/libft.h"
-#include "./get_next_line/get_next_line.h"
 
 void	ft_trace(t_wrapper wrapper, t_point src, t_point dst)
 {
@@ -112,6 +109,11 @@ int		main(int argc, char *argv[])
 	t_wrapper	wrapper;
 
 	err = 0;
+	if (argc != 2)
+	{
+		ft_putendl("error");
+		return (-1);
+	}
 	ft_init_struct(&wrapper, 10, argv[1], &err);
 	if (err == -1)
 	{
@@ -121,6 +123,5 @@ int		main(int argc, char *argv[])
 	ft_display_tab(wrapper);
 	mlx_key_hook(wrapper.mlx.win, &ft_offset, &wrapper);
 	mlx_loop(wrapper.mlx.ptr);
-	argc++;
 	return (0);
 }

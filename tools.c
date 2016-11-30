@@ -6,7 +6,7 @@
 /*   By: lmarques <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 14:02:57 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/30 00:39:46 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/30 12:32:59 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ int		ft_get_len(t_point *tab)
 
 void	ft_init_struct(t_wrapper *wrapper, int tile_size, char *name, int *err)
 {
+	wrapper->len = 0;
+	wrapper->tab = ft_init_tab(name, &(wrapper->len), err);
+	if (*err == -1)
+		return ;
 	wrapper->mlx.ptr = mlx_init();
 	wrapper->mlx.win = mlx_new_window(wrapper->mlx.ptr, 1920, 1080, "FdF");
 	wrapper->mlx.zoom = 1;
 	wrapper->mlx.offset_x = 0;
 	wrapper->mlx.offset_y = 0;
-	wrapper->len = 0;
 	wrapper->tile_size = tile_size;
-	wrapper->tab = ft_init_tab(name, &(wrapper->len), err);
 	wrapper->line_size = ft_get_len(wrapper->tab);
 }
 

@@ -6,11 +6,12 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 01:04:23 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/30 02:11:18 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/30 14:22:48 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 int		ft_count_elem(char **tab)
 {
@@ -22,7 +23,24 @@ int		ft_count_elem(char **tab)
 	return (count);
 }
 
-int		*ft_create_tab(char **tmp)
+int		ft_parse_tab(char *line)
+{
+	int	count;
+
+	count = 0;
+	while (line[count])
+	{
+		if ((line[count] != '-' && !ft_isdigit(line[count])) ||
+			line[ft_strlen(line) - 1] == '-' ||
+			(count < (int)ft_strlen(line) - 1 && line[count] == '-' &&
+			line[count + 1] == '-'))
+			return (0);
+		count++;
+	}
+	return (1);
+}
+
+int		*ft_create_tab(char **tmp, int *err)
 {
 	int		count;
 	int		count2;
@@ -34,35 +52,41 @@ int		*ft_create_tab(char **tmp)
 		return (NULL);
 	while (count2 < count)
 	{
+		if (!ft_parse_tab(tmp[count2]))
+			*err = -1;
 		tab[count2] = ft_atoi(tmp[count2]);
 		count2++;
 	}
 	return (tab);
 }
 
-t_list	*ft_create_map(char *name, int *len, int *err)
+t_list	*ft_create_map(char *name, int *len, int *e)
 {
 	t_list	*map;
+	int		ret;
 	int		fd;
-	char	*line;
+	char	*ln;
 
 	map = NULL;
 	fd = open(name, O_RDONLY);
-	line = NULL;
-	get_next_line(fd, &line);
+	ln = NULL;
+	ret = get_next_line(fd, &ln);
+	*e = ret == -1 ? -1 : 0;
+	if (ret < 0)
+		return (NULL);
 	ft_lst_push_back(&map, ft_lstnew(ft_create_tab(
-		ft_strsplit(ft_epur_str(line), ' ')),
-		ft_count_elem(ft_strsplit(ft_epur_str(line), ' ')) * sizeof(int)));
-	*len = ft_count_elem(ft_strsplit(ft_epur_str(line), ' '));
-	while (get_next_line(fd, &line))
+		ft_strsplit(ft_epur_str(ln), ' '), e),
+		ft_count_elem(ft_strsplit(ft_epur_str(ln), ' ')) * sizeof(int)));
+	*len = ft_count_elem(ft_strsplit(ft_epur_str(ln), ' '));
+	while ((ret = get_next_line(fd, &ln)))
 	{
 		ft_lst_push_back(&map, ft_lstnew(ft_create_tab(
-			ft_strsplit(ft_epur_str(line), ' ')),
-			ft_count_elem(ft_strsplit(ft_epur_str(line), ' ')) * sizeof(int)));
+			ft_strsplit(ft_epur_str(ln), ' '), e),
+			ft_count_elem(ft_strsplit(ft_epur_str(ln), ' ')) * sizeof(int)));
+		*e = ft_count_elem(ft_strsplit(ft_epur_str(ln), ' ')) != *len ? -1 : *e;
 	}
-	if (!map || !line || len == 0)
-		*err = -1;
-	return (map);
+	*e = (!map || !ln || len == 0 || ret == -1 || *e == -1) ? -1 : 0;
+	return ((!map || !ln || len == 0 || ret == -1) ? NULL : map);
 }
 
 t_point	*ft_init_tab(char *name, int *len, int *err)

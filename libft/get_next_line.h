@@ -6,7 +6,7 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/29 23:38:03 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/23 00:40:22 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/30 15:39:22 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 # define BUFF_SIZE 1
 
-# include "../libft/libft.h"
+# include "./libft.h"
 # include <fcntl.h>
 
 typedef struct		s_data
