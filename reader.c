@@ -6,12 +6,11 @@
 /*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 01:04:23 by lmarques          #+#    #+#             */
-/*   Updated: 2016/11/29 00:07:05 by lmarques         ###   ########.fr       */
+/*   Updated: 2016/11/30 02:11:18 by lmarques         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 int		ft_count_elem(char **tab)
 {
@@ -41,7 +40,7 @@ int		*ft_create_tab(char **tmp)
 	return (tab);
 }
 
-t_list	*ft_create_map(char *name, int *err, int *len)
+t_list	*ft_create_map(char *name, int *len, int *err)
 {
 	t_list	*map;
 	int		fd;
@@ -56,41 +55,41 @@ t_list	*ft_create_map(char *name, int *err, int *len)
 		ft_count_elem(ft_strsplit(ft_epur_str(line), ' ')) * sizeof(int)));
 	*len = ft_count_elem(ft_strsplit(ft_epur_str(line), ' '));
 	while (get_next_line(fd, &line))
+	{
 		ft_lst_push_back(&map, ft_lstnew(ft_create_tab(
 			ft_strsplit(ft_epur_str(line), ' ')),
 			ft_count_elem(ft_strsplit(ft_epur_str(line), ' ')) * sizeof(int)));
-	*err = 0; //TO CHANGE
+	}
+	if (!map || !line || len == 0)
+		*err = -1;
 	return (map);
 }
 
-t_point	*ft_init_tab(char *name, int *err, int *len)
+t_point	*ft_init_tab(char *name, int *len, int *err)
 {
-	int		count_y;
+	t_point	count;
 	int		count_tab;
-	int		count_tmp;
 	t_list	*tmp;
 	t_point	*tab;
 
 	count_tab = 0;
-	count_y = 0;
-	tmp = ft_create_map(name, err, len);
+	count.y = 0;
+	tmp = ft_create_map(name, len, err);
 	if (!(tab = (t_point *)malloc(sizeof(t_point) * *len * ft_lstsize(tmp))))
 		tab = NULL;
 	while (tmp)
 	{
-		count_tmp = 0;
-		while (count_tmp < *len)
+		count.x = -1;
+		while (++count.x < *len)
 		{
-			tab[count_tab].x = count_tmp + 1;
-			tab[count_tab].y = count_y;
-			tab[count_tab].offset = ((int *)(tmp->content))[count_tmp];
-			count_tmp++;
+			tab[count_tab].x = count.x;
+			tab[count_tab].y = count.y;
+			tab[count_tab].offset = ((int *)(tmp->content))[count.x];
 			count_tab++;
 		}
 		tmp = tmp->next;
-		count_y++;
+		count.y++;
 	}
-	*len *= count_y;
-	*err = 0;
+	*len *= count.y;
 	return (tab);
 }
