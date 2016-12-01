@@ -6,7 +6,7 @@
 #*   By: lmarques <lmarques@student.42.fr>          +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2016/11/10 23:15:25 by lmarques          #+#    #+#             *#
-#*   Updated: 2016/11/11 01:28:36 by lmarques         ###   ########.fr       *#
+#*   Updated: 2016/12/01 18:56:02 by lmarques         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -31,11 +31,11 @@ $(NAME):
 clean:
 		make -C libft clean
 		make -C minilibx clean
-		rm -rf $(OBJ)
+		rm -rf $(OBJ) libft.a libmlx.a
 
 fclean: clean
 		make -C libft fclean
 		make -C minilibx clean
-		rm -rf $(NAME) libft.a libmlx.a
+		rm -rf $(NAME)
 
 re : fclean all
